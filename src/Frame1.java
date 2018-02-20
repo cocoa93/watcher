@@ -40,50 +40,50 @@ public class Frame1 extends Frame implements ActionListener
         btn2.addActionListener(this);
 
     }
+    public void startThread(){
 
-    Thread capture_thread = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            try {
-                running = true;
-                System.out.print("running\n");
-                int num = 1;
-
-                while (running) {
+        Thread capture_thread = new Thread(new Runnable() {
+            @Override
+            public synchronized void run() {
+                try {
+                    running = true;
+                    System.out.print("running\n");
+                    int num = 1;
                     Robot robot = new Robot();
-                    robot.delay(1000);
                     String format = "jpg";
-                    String fileName = num + "FullScreenshot." + format;
-                    num = num + 1;
 
-                    Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-                    BufferedImage screenFullImage = robot.createScreenCapture(screenRect);
-                    ImageIO.write(screenFullImage, format, new File(fileName));
+                    while (running) {
+                        robot.delay(1000);
+                        String fileName = num + "FullScreenshot." + format;
+                        num = num + 1;
 
-                    System.out.println("A full screenshot saved!");
+                        Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+                        BufferedImage screenFullImage = robot.createScreenCapture(screenRect);
+                        ImageIO.write(screenFullImage, format, new File(fileName));
+
+                        System.out.println("A full screenshot saved!"+num);
+                    }
+
+                } catch (AWTException | IOException ex) {
+                    System.err.println(ex);
                 }
-
-            } catch (AWTException | IOException ex) {
-                System.err.println(ex);
-            }
-        }});
+            }}
+            );
+        capture_thread.start();
+    }
 
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public synchronized void actionPerformed(ActionEvent e)
     {
         if (e.getSource().equals(btn1)) {
-            if (!capture_thread.isAlive()){
-                capture_thread.start();}
-            else{
-                running=true;
-            }
+            startThread();
         }
         else
         {
-            running=false;
-            System.out.print("stop\n");
-            JOptionPane.showMessageDialog(this, "종료되었습니다.");
+                running = false;
+                System.out.print("stop\n");
+                JOptionPane.showMessageDialog(this, "종료되었습니다.");
         }
     }
 
