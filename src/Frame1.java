@@ -80,12 +80,12 @@ public class Frame1 extends Frame implements ActionListener
                         HttpClient httpClient = new DefaultHttpClient();
                         httpClient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 
-                        HttpPost httppost = new HttpPost("http://13.125.189.21/image");
+                        HttpPost httppost = new HttpPost("http://13.125.189.21/upload.php");
                         File file = new File("C:/saveImage/"+fileName);
 
                         MultipartEntity mpEntity = new MultipartEntity();
                         ContentBody cbFile = new FileBody(file,"image/jpeg");
-                        mpEntity.addPart("userfile",cbFile);
+                        mpEntity.addPart("pc1",cbFile); // 테스트 하려고 이름 pc1 으로 줌
 
                         httppost.setEntity(mpEntity);
                         System.out.println("executing request " + httppost.getRequestLine());
