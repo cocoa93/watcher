@@ -62,7 +62,7 @@ public class Frame1 extends Frame implements ActionListener
                     int num = 1;
                     Robot robot = new Robot();
                     String format = "jpg";
-                    int i = 1000*60*10 ; // 10 분
+                    int i = 1000 ; // Delay must be from 0 to 60000
                     while (running) {
                         robot.delay(i);
                         String fileName = num + "FullScreenshot." + format;
@@ -72,14 +72,16 @@ public class Frame1 extends Frame implements ActionListener
                         BufferedImage screenFullImage = robot.createScreenCapture(screenRect);
 
                         // 서버에 파일 전송 시 파일 객체 이용- 이때 이미지가 경로에 저장되어 있어야 한다.
-                        ImageIO.write(screenFullImage, format, new File("C:/saveImage/" + fileName));
+                        File dir = new File("C:/saveImage");
+                        dir.mkdir();
+                        ImageIO.write(screenFullImage, format, new File(dir, fileName));
                         System.out.println("A full screenshot saved!"+num);
 
                         HttpClient httpClient = new DefaultHttpClient();
                         httpClient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 
-                        HttpPost httppost = new HttpPost("http://ip/image");
-                        File file = new File("C:/savaeIamge/"+fileName);
+                        HttpPost httppost = new HttpPost("http://13.125.189.21/image");
+                        File file = new File("C:/saveImage/"+fileName);
 
                         MultipartEntity mpEntity = new MultipartEntity();
                         ContentBody cbFile = new FileBody(file,"image/jpeg");
