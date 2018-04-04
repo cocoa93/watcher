@@ -3,8 +3,7 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import java.awt.AWTException;
 import java.awt.Rectangle;
@@ -17,14 +16,17 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 
-public class Frame1 extends Frame implements ActionListener
+public class ScreenShotFrame extends Frame implements ActionListener
 {
     JButton btn1 = new JButton("start");
     JButton btn2 = new JButton("stop");
+    JLabel greetingLabel = new JLabel("aa");
+
+
     boolean running = false;
 
 
-    public Frame1()
+    public ScreenShotFrame()
     {
 
         super("캡처프로그램");
@@ -34,7 +36,7 @@ public class Frame1 extends Frame implements ActionListener
         this.add(btn2);
 
         this.setSize(300, 200);
-        this.setVisible(true);
+        this.setVisible(false);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);
@@ -85,13 +87,6 @@ public class Frame1 extends Frame implements ActionListener
                 System.out.print("stop\n");
                 JOptionPane.showMessageDialog(this, "종료되었습니다.");
         }
-    }
-
-    public static void main(String[] args)
-    {
-        boolean running = false;
-        new Frame1();
-
     }
 
 }
