@@ -1,14 +1,9 @@
-import java.awt.FlowLayout;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import java.awt.AWTException;
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,12 +25,19 @@ public class ScreenShotFrame extends Frame implements ActionListener
     {
 
         super("캡처프로그램");
-        this.setLayout(new FlowLayout());
+        this.setLayout(new BorderLayout());
+        JPanel p1 = new JPanel();
+        p1.setLayout(new GridLayout(1,2));
+        JPanel p2 = new JPanel();
+        p2.setLayout(new FlowLayout());
+        p1.add(btn1);
+        p1.add(btn2);
+        p2.add(greetingLabel);
 
-        this.add(btn1);
-        this.add(btn2);
+        add(p1, BorderLayout.SOUTH);
+        add(p2, BorderLayout.NORTH);
 
-        this.setSize(300, 200);
+        this.setSize(300, 100);
         this.setVisible(false);
 
         btn1.addActionListener(this);
@@ -79,13 +81,16 @@ public class ScreenShotFrame extends Frame implements ActionListener
     public synchronized void actionPerformed(ActionEvent e)
     {
         if (e.getSource().equals(btn1)) {
+
             startThread();
+            this.greetingLabel.setText("캡처중입니다");
         }
         else
         {
-                running = false;
-                System.out.print("stop\n");
-                JOptionPane.showMessageDialog(this, "종료되었습니다.");
+            running = false;
+            System.out.print("stop\n");
+            this.greetingLabel.setText("캡처를 정지합니다");
+            JOptionPane.showMessageDialog(this, "종료되었습니다.");
         }
     }
 
